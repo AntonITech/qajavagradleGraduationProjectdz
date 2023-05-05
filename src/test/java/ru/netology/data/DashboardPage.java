@@ -1,14 +1,9 @@
 package ru.netology.data;
 
 public class DashboardPage {
-    private static String urlPayment = "http://localhost:9999/payment";
-    private static String urlCredit = "http://localhost:9999/credit";
-    private static String urlSql = "jdbc:mysql://localhost:3306/app";
-    private static String username = "app";
-    private static String password = "pass";
-
-    public DashboardPage() {
-    }
-
-
+    private static String url = System.getProperty("db.url");
+    private static String appURL = System.getProperty("app.url");
+    private static String appPORT = System.getProperty("app.port");
+    private static String userDB = System.getProperty("app.userDB");
+    private static String password = System.getProperty("app.password");
 }

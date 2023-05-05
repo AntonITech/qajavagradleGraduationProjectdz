@@ -1,28 +1,42 @@
 package ru.netology.data;
 
+import org.apache.commons.dbutils.QueryRunner;
+import lombok.val;
+import org.apache.commons.dbutils.handlers.BeanHandler;
+
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class DataHelper {
-    private DataHelper() {
+    private static String url = System.getProperty("db.url");
+    private static String appURL = System.getProperty("app.url");
+    private static String appPORT = System.getProperty("app.port");
+    private static String userBD = System.getProperty("app.userDB");
+    private static String password = System.getProperty("app.password");
+
+    public static void clearAllData() throws SQLException {
+        val runner = new QueryRunner();
+        val conn = DriverManager.getConnection(url, userBD, password);
+        runner.update(conn, "DELETE FROM credit_request_entity;");
+        runner.update(conn, "DELETE FROM payment_entity;");
+        runner.update(conn, "DELETE FROM order_entity:");
     }
 
-    public static AuthInfo getAuthInfo() {
-        return new AuthInfo("app", "pass");
+    public static void checkPaymentStatus(Status status) throws SQLException {
+        val runner = new QueryRunner();
+        val conn = DriverManager.getConnection(url, userBD, password);
+        val paymentDataSQL = "SELECT status FROM payment_entity;";
+        val payment = runner.query(conn, paymentDataSQL, new BeanHandler<>(PaymentCard.class));
+        assertEquals(status, payment.status);
     }
 
-    public static CardInfo getCardInfoApproved() {
-        return new CardInfo("4444 4444 4444 4441", "APPROVED");
-    }
-
-    public static CardInfo getCardInfoDeclined() {
-        return new CardInfo("44444 4444 4444 4442", "DECLINED");
-    }
-
-    public static class CardInfo {
-        String cardNumber;
-        String cardStatus;
-    }
-
-    public static class AuthInfo {
-        String username;
-        String password;
+    public static void checkCreditStatus(Status status) throws SQLException {
+        val runner = new QueryRunner();
+        val conn = DriverManager.getConnection(url, userBD, password);
+        val creditDataSQL = "SELECT status FROM credit_request_entity;";
+        val credit = runner.query(conn, creditDataSQL, new BeanHandler<>(CreditCard.class));
+        assertEquals(status, credit.status);
     }
 }
