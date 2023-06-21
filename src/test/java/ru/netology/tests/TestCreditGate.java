@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import org.junit.jupiter.api.*;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
-import ru.netology.data.DashboardPage;
+import ru.netology.pages.DashboardPage;
 import ru.netology.data.DataHelper;
 import ru.netology.data.Status;
 
